@@ -1,0 +1,45 @@
+
+qemu-img resize 2017-11-29-raspbian-stretch-lite.img +2G
+kpartx -av 2017-11-29-raspbian-stretch-lite.img
+mount /dev/mapper/loop0p2 /mnt/
+comment all in /mnt/etc/fstab, just leave uncomentent line that starts with proc
+comment all in /mnt/etc/ld.so.preload
+unmount /mnt
+kpartx -d 2016-11-29-raspbian-stretch-lite.img
+
+so now we add more space to the image but here comes the parted
+no one knows how to do:
+
+"resize the filesystem ext4 to the added 2 GB"
+------IMPORTANT, HOW TO EXPAND THE FILESYSTEM ----------
+NOTE:***GPARTED IS NEEDED***
+this is the faster method I found by myself getting mad xD
+
+first you need to mount in a loop the image, this is because
+you want to map the whole image and not only each partition as
+the kpartx method did.
+
+as root mount into a loop10:
+#losetup /dev/loop10 2017-11-29-raspbian-stretch-lite.img
+
+#gparted /dev/loop10
+
+once we are into gparted, next step is to move the second partition
+(ext4) to the end of the free space, after that, you apply changes,
+then you expand it backwards to the freespace and appy changes again.
+NOTE:there where some errors if i expandit normally but this way worked,
+    if someone know a better solution and why this happends please update.
+
+umount the loop10
+
+losetup /dev/loop10 2017-11-29-raspbian-stretch-lite.img
+
+DONE ;)
+--------------------------------------------------------
+
+now run the runQemuPI2.sh
+./runQemuPI2.sh
+and have fun :D
+
+reference:
+https://stackoverflow.com/questions/38837606/how-to-emulate-raspberry-pi-raspbian-with-qemu?answertab=votes#tab-top

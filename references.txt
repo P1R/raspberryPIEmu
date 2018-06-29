@@ -1,0 +1,10 @@
+manuals:
+
+http://linux-mitterteich.de/fileadmin/datafile/papers/2013/qemu_raspiemu_lug_18_sep_2013.pdf
+
+kernels:
+https://github.com/dhruvvyas90/qemu-rpi-kernel
+
+lite images:
+https://downloads.raspberrypi.org/raspbian_lite/images/
+
